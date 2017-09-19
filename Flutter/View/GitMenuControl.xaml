@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Flutter.View.GitMenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Flutter.View"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Orientation="Horizontal">
+        <!--commit button, no drop down or badge-->
+        <Button x:Name="commitButton" Style="{DynamicResource FlatButtonStyle}" BorderBrush="Black" Background="Transparent" BorderThickness="1" MaxHeight="26" Margin="4">
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterialLight Kind="Plus" />
+                <TextBlock Text="Commit" FontSize="12" FontWeight="Normal"/>
+            </StackPanel>
+        </Button>
+
+        <!--pull button, drop down and badge-->
+        <controls:Badged Badge="5" BadgePlacementMode="TopRight" Margin="4"  MaxHeight="26">
+            <controls:DropDownButton x:Name="pullButton"
+                                     VerticalContentAlignment="Center"
+                                     ArrowVisibility="Visible"
+                                     Content="Pull">
+                <controls:DropDownButton.Icon>
+                    <iconPacks:PackIconMaterialLight Kind="ArrowDown" />
+                </controls:DropDownButton.Icon>
+            </controls:DropDownButton>
+        </controls:Badged>
+
+
+        <controls:Badged Badge="5" BadgePlacementMode="TopRight" Margin="4">
+            <Button x:Name="pushButton" Style="{DynamicResource FlatButtonStyle}" BorderBrush="Black" Background="Transparent" BorderThickness="1" MaxHeight="26">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterialLight Kind="ArrowUp" />
+                    <TextBlock Text="Push" FontSize="12" FontWeight="Normal"/>
+                </StackPanel>
+            </Button>
+        </controls:Badged>
+
+        <Button x:Name="branchButton" Style="{DynamicResource FlatButtonStyle}" BorderBrush="Black" Background="Transparent" BorderThickness="1" MaxHeight="26" Margin="4">
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconEntypo Kind="FlowTree" />
+                <TextBlock Text="Branch" FontSize="12" FontWeight="Normal"/>
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="stashButton" Style="{DynamicResource FlatButtonStyle}" BorderBrush="Black" Background="Transparent" BorderThickness="1" MaxHeight="26" Margin="4">
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Kind="InboxIn" />
+                <TextBlock Text="Stash" FontSize="12" FontWeight="Normal"/>
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="popButton" Style="{DynamicResource FlatButtonStyle}" BorderBrush="Black" Background="Transparent" BorderThickness="1" MaxHeight="26" Margin="4">
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Kind="InboxOut" />
+                <TextBlock Text="Pop" FontSize="12" FontWeight="Normal"/>
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</UserControl>
