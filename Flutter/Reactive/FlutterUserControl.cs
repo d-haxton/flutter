@@ -1,12 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using Flutter.DI;
-using MahApps.Metro.Controls;
 using ReactiveUI;
 
 namespace Flutter.Reactive
 {
-    public abstract class FlutterWindow<T> : MetroWindow, IViewFor where T : ReactiveObject
+    public abstract class FlutterUserControl<T> : UserControl, IViewFor where T : ReactiveObject
     {
         protected T ViewModel { get; private set; }
 
@@ -16,7 +17,7 @@ namespace Flutter.Reactive
             set => ViewModel = value as T;
         }
 
-        protected FlutterWindow()
+        protected FlutterUserControl()
         {
             ViewModel = Bootstrap.Container.GetInstance<T>();
 

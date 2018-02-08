@@ -11,13 +11,15 @@ namespace Flutter.Data
 {
     public class DiskRepository : IDisposable
     {
-        private readonly DatabaseSettings settings;
         private readonly LiteDatabase data;
+        private static readonly Dictionary<string, LiteDatabase> databases = new Dictionary<string, LiteDatabase>();
 
         public DiskRepository(DatabaseSettings settings)
         {
-            this.settings = settings;
-            data = new LiteDatabase(settings.DatabaseName);
+            if (!databases.TryGetValue(settings.DatabaseName, out data))
+            {
+                databases[settings.DatabaseName] = data = new LiteDatabase(settings.DatabaseName);
+            }
         }
 
         public IEnumerable<T> GetDataModel<T>(Expression<Func<T, bool>> predicate = null) where T : BaseObject
@@ -169,7 +171,7 @@ namespace Flutter.Data
 
         public void Dispose()
         {
-            data?.Dispose();
+            //data?.Dispose();
         }
     }
 }

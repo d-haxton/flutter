@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Subjects;
@@ -157,7 +158,13 @@ namespace Flutter.Data
 
         T IList<T>.this[int index]
         {
-            get => throw new NotImplementedException();
+            get
+            {
+                using (var disk = Bootstrap.Container.GetInstance<DiskRepository>())
+                {
+                    return disk.GetDataModel<T>().ToArray()[index];
+                }
+            }
             set => throw new NotImplementedException();
         }
     }

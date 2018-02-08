@@ -1,4 +1,6 @@
 ﻿using System.Xaml;
+using Flutter.IO;
+using Flutter.Library.IO;
 using Flutter.Settings;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -11,6 +13,7 @@ namespace Flutter.DI
         {
             //For<IMainViewModel>().Use<MainViewModel>();
             For<DatabaseSettings>().Use<DatabaseSettings>().Ctor<string>().Is("flutter.db").Singleton();
+            For<IFolderDialog>().Use<FolderDialog>();
         }
     }
 

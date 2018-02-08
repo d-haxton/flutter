@@ -44,7 +44,7 @@ namespace Flutter.View
 
             var nameOfRepo = ((TabItem) args.DragablzItem.Content).Header as string;
             var deleteRepo = await this.ShowMessageAsync("Delete repository",
-                $"Are you sure you want to delete {nameOfRepo}",
+                $"Are you sure you want to remove {nameOfRepo}",
                 MessageDialogStyle.AffirmativeAndNegative);
 
             if (deleteRepo == MessageDialogResult.Affirmative)
@@ -60,8 +60,7 @@ namespace Flutter.View
                 "Please enter a new repository name");
             if (!string.IsNullOrEmpty(repo))
             {
-                // todo :: path
-                ViewModel.Repositories.Add(new GitRepository(repo, ""));
+                ViewModel.CreateRepository(repo);
             }
         }
 

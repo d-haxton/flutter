@@ -10,7 +10,7 @@
     <ScrollViewer>
         <StackPanel>
             <Expander Header="_Local">
-                <controls:GitBranchTreeView />
+                <controls:GitBranchTreeView IsLocalBranches="True" />
             </Expander>
             <Expander Header="_Remote">
                 <controls:GitBranchTreeView />
