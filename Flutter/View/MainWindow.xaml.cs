@@ -8,8 +8,8 @@ using System.Windows.Input;
 using Dragablz;
 using Flutter.DI;
 using Flutter.POCOs;
+using Flutter.Reactive;
 using ReactiveUI;
-using Flutter.Utils;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace Flutter.View

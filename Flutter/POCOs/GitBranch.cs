@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibGit2Sharp;
 
 namespace Flutter.POCOs
 {
     public class GitBranch
     {
+        public string Name => branch.FriendlyName;
         public IList<GitBranch> Children { get; }
-        public string Name { get; set; }
 
-        public GitBranch(string name)
+        private readonly Branch branch;
+        public GitBranch(Branch branch, IEnumerable<GitBranch> children)
         {
-            Children = new List<GitBranch>();
-            Name = name;
+            this.branch = branch;
+            Children = new ObservableCollection<GitBranch>(children);
         }
     }
 }

@@ -11,6 +11,10 @@ namespace Flutter.Settings
         public GitSettings(GitRepository repository)
         {
             PathToRepository = repository.Path;
+            Options = new RepositoryOptions()
+            {
+                // TODO :: ?
+            };
         }
     }
 }

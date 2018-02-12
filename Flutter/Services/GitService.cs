@@ -1,22 +1,53 @@
 ﻿using System.Collections.Immutable;
+using System.Linq;
 using Flutter.Settings;
 using LibGit2Sharp;
 
 namespace Flutter.Services
 {
-    public class GitService
+    public interface IGitService
     {
-        private Repository repository;
+        ImmutableArray<Branch> Branches { get; }
+        void FetchRemotes();
+    }
 
-        public GitService(GitSettings settings)
+    public class GitService : IGitService
+    {
+        private readonly GitSettings settings;
+        private readonly ICredentialProvider credentialProvider;
+
+        public GitService(GitSettings settings, ICredentialProvider credentialProvider)
         {
-            repository = new Repository(settings.PathToRepository);
-            //repository = new Repository(gitSettings.LocalPathToRepository, gitSettings.Options);
+            this.settings = settings;
+            this.credentialProvider = credentialProvider;
         }
 
-        public ImmutableArray<Branch> Branches()
+        private Repository BuildRepository()
         {
-            return repository.Branches.ToImmutableArray();
+            return new Repository(settings.PathToRepository, settings.Options);
+        }
+
+        public ImmutableArray<Branch> Branches
+        {
+            get
+            {
+                using (var repo = BuildRepository())
+                {
+                    return repo.Branches.ToImmutableArray();
+                }
+            }
+        }
+
+        public void FetchRemotes()
+        {
+            using (var repo = BuildRepository())
+            {
+                foreach (var remote in repo.Network.Remotes)
+                {
+                    var refSpecs = remote.FetchRefSpecs.Select(x => x.Specification);
+                    Commands.Fetch(repo, remote.Name, refSpecs, credentialProvider.GithubFetchOptions, "");
+                }
+            }
         }
     }
 }

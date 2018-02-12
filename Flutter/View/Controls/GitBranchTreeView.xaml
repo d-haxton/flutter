@@ -4,18 +4,17 @@
                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                             xmlns:local="clr-namespace:Flutter.View.Controls"
                              xmlns:reactive="clr-namespace:Flutter.Reactive"
                              xmlns:viewModel="clr-namespace:Flutter.ViewModel"
-                             xmlns:pocOs="clr-namespace:Flutter.POCOs"
+                             xmlns:libGit2Sharp="clr-namespace:LibGit2Sharp;assembly=LibGit2Sharp"
                              mc:Ignorable="d"
                              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <TreeView x:Name="branchesTreeView">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type pocOs:GitBranch}" ItemsSource="{Binding Path=Children}">
+                <HierarchicalDataTemplate DataType="{x:Type libGit2Sharp:Branch}" ItemsSource="{Binding Path=Children}">
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="1" Height="44">
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" MaxWidth="200" />
+                        <TextBlock Text="{Binding FriendlyName}" VerticalAlignment="Center" MaxWidth="200" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

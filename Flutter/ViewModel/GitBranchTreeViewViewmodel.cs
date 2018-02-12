@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Flutter.Data;
 using Flutter.POCOs;
+using Flutter.Reactive;
+using Flutter.Services;
+using Flutter.Settings;
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Microsoft.Alm.Authentication;
@@ -24,40 +27,33 @@ namespace Flutter.ViewModel
 
         public GitBranchTreeViewViewModel()
         {
-            var secrets = new SecretStore("git");
-            var auth = new BasicAuthentication(secrets);
-            var creds = auth.GetCredentials(new TargetUri("https://github.com"));
-
             RootNodes = new ObservableCollection<GitBranch>();
             repositories = new DatabaseCollection<GitRepository>();
+
+            var gitService = new GitService(new GitSettings(repositories.FirstOrDefault()), new CredentialProvider());
+
             this.WhenAnyValue(x => x.IsLocal)
-                .Subscribe(_ =>
+                .Subscribe(isLocal =>
                 {
-                    using (var repo = new Repository(repositories.FirstOrDefault()?.Path))
+                    var nodes = gitService.Branches
+                        .Where(x => x.IsRemote != isLocal)
+                        .OrderByDescending(x => x.FriendlyName.Count(c => c == '/'));
+
+                    foreach (var branch in GetNodes(nodes))
                     {
-                        FetchOptions options = new FetchOptions();
-                        options.CredentialsProvider = new CredentialsHandler((url, usernameFromUrl, types) =>
-                            new UsernamePasswordCredentials()
-                            {
-                                Username = creds.Username,
-                                Password = creds.Password
-                            });
-                        foreach (var remote in repo.Network.Remotes)
-                        {
-
-                            var refSpecs = remote.FetchRefSpecs.Select(x => x.Specification);
-                            Commands.Fetch(repo, remote.Name, refSpecs, options, "");
-                        }
-
-                        var query = repo.Branches.OrderBy(x => x.RemoteName.Count(y => y == '/'));
-                        var root = new GitBranch("Root");
-
-                        foreach (var node in query)
-                        {
-                            RootNodes.Add(new GitBranch(node.FriendlyName));
-                        }
+                        // TODO :: Will not track new branches very well, need to update later
+                        RootNodes.Add(branch);
                     }
                 });
+        }
+
+        private static IEnumerable<GitBranch> GetNodes(IEnumerable<Branch> items, string prefix = "/")
+        {
+            var preLen = prefix.Length;
+            var candidates = items.Where(i => i.FriendlyName.Length > preLen && i.FriendlyName[preLen] != '0' && i.FriendlyName.StartsWith(prefix)).ToArray();
+            return candidates.Where(i => i.FriendlyName.Length > preLen + 1 && i.FriendlyName[preLen + 1] == '0')
+                .Select(i => new GitBranch(i, GetNodes(candidates, prefix + i.FriendlyName[preLen])))
+                .ToArray();
         }
     }
 }

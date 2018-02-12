@@ -163,11 +163,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Reactive\ReactiveUtils.cs" />
+    <Compile Include="Services\CredentialProvider.cs" />
     <Compile Include="Services\GitService.cs" />
     <Compile Include="Settings\DatabaseSettings.cs" />
     <Compile Include="Settings\GitSettings.cs" />
-    <Compile Include="Utils\GitFluentExtensions.cs" />
-    <Compile Include="Utils\ObservableExtensions.cs" />
     <Compile Include="ViewModel\GitBranchTreeViewViewmodel.cs" />
     <Compile Include="ViewModel\GitHistoryControlViewModel.cs" />
     <Compile Include="ViewModel\GitLogDataGridViewModel.cs" />
@@ -243,6 +243,9 @@
       <Project>{6B9C1513-301C-460A-B445-4D0E582BD8FB}</Project>
       <Name>Flutter.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

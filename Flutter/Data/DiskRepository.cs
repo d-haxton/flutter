@@ -157,6 +157,14 @@ namespace Flutter.Data
             }
         }
 
+        /// <summary>
+        /// Heavy operation, try to avoid
+        /// </summary>
+        public T[] Collection<T>() where T : BaseObject
+        {
+            return data.GetDataModelCollection<T>().FindAll().ToArray();
+        }
+
         private IEnumerable<INotifyCollection<T>> GetCollections<T>() where T : BaseObject
         {
             var type = typeof(T);

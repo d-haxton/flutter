@@ -109,6 +109,14 @@ namespace Flutter.Data
             }
         }
 
+        public void AddRange(IEnumerable<T> items)
+        {
+            using (var disk = Bootstrap.Container.GetInstance<DiskRepository>())
+            {
+                disk.InsertDataModel(items);
+            }
+        }
+
         public void Clear()
         {
             using (var disk = Bootstrap.Container.GetInstance<DiskRepository>())
@@ -162,7 +170,7 @@ namespace Flutter.Data
             {
                 using (var disk = Bootstrap.Container.GetInstance<DiskRepository>())
                 {
-                    return disk.GetDataModel<T>().ToArray()[index];
+                    return disk.Collection<T>()[index];
                 }
             }
             set => throw new NotImplementedException();
