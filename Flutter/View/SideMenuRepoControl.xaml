@@ -1,12 +1,16 @@
-﻿<UserControl x:Class="Flutter.View.SideMenuRepoControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Flutter.View"
-             xmlns:controls="clr-namespace:Flutter.View.Controls"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+﻿<reactive:FlutterUserControl x:TypeArguments="viewModel:SideMenuRepoControlViewModel"
+                             x:Class="Flutter.View.SideMenuRepoControl"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:local="clr-namespace:Flutter.View"
+                             xmlns:controls="clr-namespace:Flutter.View.Controls"
+                             xmlns:reactive="clr-namespace:Flutter.Reactive"
+                             xmlns:reactiveUi="http://reactiveui.net"
+                             xmlns:viewModel="clr-namespace:Flutter.ViewModel"
+                             mc:Ignorable="d"
+                             d:DesignHeight="300" d:DesignWidth="300">
     <ScrollViewer>
         <StackPanel>
             <Expander Header="_Local">
@@ -26,4 +30,4 @@
             </Expander>
         </StackPanel>
     </ScrollViewer>
-</UserControl>
+</reactive:FlutterUserControl>

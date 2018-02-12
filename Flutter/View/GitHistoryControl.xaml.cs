@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Threading.Tasks;
 using Flutter.Reactive;
-using Flutter.ViewModel;
 using ReactiveUI;
+using StructureMap;
 
 namespace Flutter.View
 {
-    /// <summary>
-    /// Interaction logic for GitHistoryControl.xaml
-    /// </summary>
-    public partial class GitHistoryControl : ViewForUserControl<GitHistoryControlViewModel>
+    public partial class GitHistoryControl
     {
         public GitHistoryControl()
         {
             InitializeComponent();
 
             this.OneWayBind(ViewModel, vm => vm.GitLogViewModels, v => v.gitLogDataGrid.ItemsSource);
+
+            rebaseMenuItem.Header = "Rebase {current.Branch} to {here.Branch}";
+            mergeMenuItem.Header = "Merge {here.Commit} into {current.Branch}";
+            checkoutMenuItem.Header = "Checkout {here.Branch}";
+            branchMenuItem.Header = "Branch {here}";
+            resetToHereMenuItem.Header = "Reset {current.Branch} to {here.Commit}";
+            createTagMenuItem.Header = "Create tag {here.Commit}";
+
+            rebaseMenuItem.Command = ReactiveCommand.CreateFromTask(NeedsImplementing);
+            mergeMenuItem.Command = ReactiveCommand.CreateFromTask(NeedsImplementing);
+            checkoutMenuItem.Command = ReactiveCommand.CreateFromTask(NeedsImplementing);
+            branchMenuItem.Command = ReactiveCommand.CreateFromTask(NeedsImplementing);
+            resetToHereMenuItem.Command = ReactiveCommand.CreateFromTask(NeedsImplementing);
+            createTagMenuItem.Command = ReactiveCommand.CreateFromTask(NeedsImplementing);
+        }
+
+        private async Task NeedsImplementing()
+        {
+            // TODO :: Maybe you want to implement this?
+            //await this.ShowMessageAsync("")
         }
     }
 }

@@ -8,9 +8,12 @@ using System.Windows.Input;
 using Dragablz;
 using Flutter.DI;
 using Flutter.POCOs;
+using Flutter.Reactive;
+using Flutter.Settings;
 using ReactiveUI;
-using Flutter.Utils;
 using MahApps.Metro.Controls.Dialogs;
+using StructureMap;
+using StructureMap.Pipeline;
 
 namespace Flutter.View
 {
@@ -31,7 +34,7 @@ namespace Flutter.View
                 .Subscribe(() =>
                 {
                     tabItems.Clear();
-                    foreach (var tabItem in ViewModel.Repositories.Select(x => BuildTabItem(x.Name)))
+                    foreach (var tabItem in ViewModel.Repositories.Where(x => !string.IsNullOrEmpty(x.Path)).Select(BuildTabItem))
                     {
                         tabItems.Add(tabItem);
                     }
@@ -44,7 +47,7 @@ namespace Flutter.View
 
             var nameOfRepo = ((TabItem) args.DragablzItem.Content).Header as string;
             var deleteRepo = await this.ShowMessageAsync("Delete repository",
-                $"Are you sure you want to delete {nameOfRepo}",
+                $"Are you sure you want to remove {nameOfRepo}",
                 MessageDialogStyle.AffirmativeAndNegative);
 
             if (deleteRepo == MessageDialogResult.Affirmative)
@@ -60,17 +63,21 @@ namespace Flutter.View
                 "Please enter a new repository name");
             if (!string.IsNullOrEmpty(repo))
             {
-                // todo :: path
-                ViewModel.Repositories.Add(new GitRepository(repo, ""));
+                ViewModel.CreateRepository(repo);
             }
         }
 
-        private static TabItem BuildTabItem(string repositoryName)
+        private TabItem BuildTabItem(GitRepository repository)
         {
+            var container = ScopedContainer.CreateChildContainer();
+            container.Name = $"{repository.Name}";
+            container.Configure(x => x.For<IGitSettings>().Use<GitSettings>().Ctor<GitRepository>().Is(repository));
+            var control = container.GetInstance<RepositoryControl>();
+            control.ScopedContainer = container;
             return new TabItem
             {
-                Content = Bootstrap.Container.GetInstance<RepositoryControl>(),
-                Header = repositoryName
+                Content = control,
+                Header = repository.Name
             };
         }
     }

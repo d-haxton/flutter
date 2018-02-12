@@ -15,6 +15,7 @@ namespace Flutter
             Bootstrap.Container = Container.For<FlutterUIContainer>();
 
             var app = Bootstrap.Container.GetInstance<MainWindow>();
+            app.ScopedContainer = Bootstrap.Container;
             app.Show();
         }
     }

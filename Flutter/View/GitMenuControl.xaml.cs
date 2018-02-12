@@ -13,7 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Flutter.Services;
 using ReactiveUI.Legacy;
+using StructureMap;
+using StructureMap.Attributes;
 using ReactiveCommand = ReactiveUI.ReactiveCommand;
 
 namespace Flutter.View
@@ -21,7 +24,7 @@ namespace Flutter.View
     /// <summary>
     /// Interaction logic for GitMenuControl.xaml
     /// </summary>
-    public partial class GitMenuControl : UserControl
+    public partial class GitMenuControl
     {
         private ICommand FetchCommand { get; } = ReactiveCommand.Create(() => { });
         private ICommand PullFastForwardPossible { get; } = ReactiveCommand.Create(() => { });

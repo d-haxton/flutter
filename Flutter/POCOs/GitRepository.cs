@@ -1,7 +1,4 @@
-﻿using System;
-using ReactiveUI;
-
-namespace Flutter.POCOs
+﻿namespace Flutter.POCOs
 {
     public class GitRepository : BaseObject
     {
@@ -10,28 +7,12 @@ namespace Flutter.POCOs
 
         public GitRepository()
         {
-
         }
 
         public GitRepository(string name, string path)
         {
             Name = name;
             Path = path;
-        }
-    }
-
-    public abstract class BaseObject : ReactiveObject
-    {
-        public string Uid { get; set; }
-
-        protected BaseObject()
-        {
-            Uid = Guid.NewGuid().ToString();
-        }
-
-        protected BaseObject(string uid)
-        {
-            Uid = uid;
         }
     }
 }

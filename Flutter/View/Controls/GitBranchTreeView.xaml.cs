@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using ReactiveUI;
+using StructureMap;
 
 namespace Flutter.View.Controls
 {
-    /// <summary>
-    /// Interaction logic for GitBranchTreeView.xaml
-    /// </summary>
-    public partial class GitBranchTreeView : UserControl
+    public partial class GitBranchTreeView
     {
         public GitBranchTreeView()
         {
             InitializeComponent();
+
+            this.OneWayBind(ViewModel, vm => vm.RootNodes, v => v.branchesTreeView.ItemsSource);
+        }
+
+        private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

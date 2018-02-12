@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using Flutter.Data;
+using Flutter.Library.IO;
 using Flutter.POCOs;
 using ReactiveUI;
 
@@ -6,26 +8,24 @@ namespace Flutter.ViewModel
 {
     public class MainViewModel : ReactiveObject
     {
-        private readonly DiskRepository disk;
+        private readonly IFolderDialog folderDialog;
 
         public DatabaseCollection<GitRepository> Repositories { get; }
 
-        public MainViewModel(DiskRepository diskStorage)
+        public MainViewModel(IFolderDialog folderDialog)
         {
-            disk = diskStorage;
+            this.folderDialog = folderDialog;
 
             Repositories = new DatabaseCollection<GitRepository>();
         }
 
-        public void CreateRepository(string name, string path)
+        public void CreateRepository(string name)
         {
-            //var repository = new GitRepository()
-            //{
-            //    Name = name,
-            //    Path = path
-            //};
-
-            //disk.InsertDataModel(repository);
+            var folder = folderDialog.SelectFolder("Select the git repository folder");
+            if (!string.IsNullOrEmpty(folder))
+            {
+                Repositories.Add(new GitRepository(name, folder));
+            }
         }
     }
 }

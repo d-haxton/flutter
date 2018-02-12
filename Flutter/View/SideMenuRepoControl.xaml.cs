@@ -12,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using StructureMap;
 
 namespace Flutter.View
 {
     /// <summary>
     /// Interaction logic for SideMenuRepoControl.xaml
     /// </summary>
-    public partial class SideMenuRepoControl : UserControl
+    public partial class SideMenuRepoControl
     {
         public SideMenuRepoControl()
         {
