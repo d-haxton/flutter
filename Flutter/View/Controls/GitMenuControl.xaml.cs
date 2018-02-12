@@ -13,7 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Flutter.Reactive;
 using Flutter.Services;
+using ReactiveUI;
 using ReactiveUI.Legacy;
 using StructureMap;
 using StructureMap.Attributes;
@@ -26,7 +28,7 @@ namespace Flutter.View
     /// </summary>
     public partial class GitMenuControl
     {
-        private ICommand FetchCommand { get; } = ReactiveCommand.Create(() => { });
+        private ICommand FetchCommand { get; set; }
         private ICommand PullFastForwardPossible { get; } = ReactiveCommand.Create(() => { });
         private ICommand PullFastForwardOnly { get; } = ReactiveCommand.Create(() => { });
         private ICommand PullRebase { get; } = ReactiveCommand.Create(() => { });
@@ -35,7 +37,15 @@ namespace Flutter.View
         {
             InitializeComponent();
 
-            pullButton.ItemsSource = BuildPullMenuItems();
+
+            this.WhenAnyValue(x => x.ViewModel)
+                .NotNull()
+                .Subscribe(vm =>
+                {
+                    FetchCommand = vm.Fetch;
+
+                    pullButton.ItemsSource = BuildPullMenuItems();
+                });
         }
 
 

@@ -33,12 +33,13 @@ namespace Flutter.POCOs
 
     public class GitTreeBranch : GitTreeItem
     {
-        public override string Name => branch.FriendlyName;
+        public override string Name { get; }
 
         private readonly Branch branch;
 
-        public GitTreeBranch(Branch branch)
+        public GitTreeBranch(string name, Branch branch)
         {
+            Name = name;
             this.branch = branch;
         }
     }

@@ -7,9 +7,10 @@
                           xmlns:local="clr-namespace:Flutter.View"
                           xmlns:viewModel="clr-namespace:Flutter.ViewModel"
                           xmlns:reactive="clr-namespace:Flutter.Reactive"
+                          xmlns:pocOs="clr-namespace:Flutter.POCOs"
                           mc:Ignorable="d">
     <Grid>
-        <DataGrid x:Name="gitLogDataGrid" d:DataContext="{d:DesignInstance viewModel:GitLogDataGridViewModel}" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="gitLogDataGrid" d:DataContext="{d:DesignInstance pocOs:GitCommit}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.ContextMenu>
                 <ContextMenu >
                     <MenuItem x:Name="rebaseMenuItem"  />
@@ -22,11 +23,11 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Branch" Binding="{Binding Branch}" Width="200" />
-                <DataGridTextColumn Header="Commit Message" Binding="{Binding CommitMessage}" Width="*" />
+                <DataGridTextColumn Header="Graph" Width="200" />
+                <DataGridTextColumn Header="Commits Message" Binding="{Binding CommitMessage}" Width="*" />
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="125" />
                 <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="100" />
-                <DataGridTextColumn Header="Commit" Binding="{Binding CommitHashTruncated}" Width="100" />
+                <DataGridTextColumn Header="Commits" Binding="{Binding CommitHashTruncated}" Width="100" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

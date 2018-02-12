@@ -16,7 +16,7 @@
                 Background="Transparent" BorderThickness="1" MaxHeight="26" Margin="4">
             <StackPanel Orientation="Horizontal">
                 <iconPacks:PackIconMaterialLight Kind="Plus" />
-                <TextBlock Text="Commit" FontSize="12" FontWeight="Normal" />
+                <TextBlock Text="Commits" FontSize="12" FontWeight="Normal" />
             </StackPanel>
         </Button>
 
