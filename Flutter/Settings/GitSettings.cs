@@ -3,7 +3,13 @@ using LibGit2Sharp;
 
 namespace Flutter.Settings
 {
-    public class GitSettings
+    public interface IGitSettings
+    {
+        string PathToRepository { get; set; }
+        RepositoryOptions Options { get; set; }
+    }
+
+    public class GitSettings : IGitSettings
     {
         public string PathToRepository { get; set; }
         public RepositoryOptions Options { get; set; }

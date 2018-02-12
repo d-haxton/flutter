@@ -1,31 +1,22 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
+using StructureMap;
 
 namespace Flutter.View.Controls
 {
     public partial class GitBranchTreeView
     {
-
         public GitBranchTreeView()
         {
             InitializeComponent();
 
-            ViewModel.IsLocal = true;
             this.OneWayBind(ViewModel, vm => vm.RootNodes, v => v.branchesTreeView.ItemsSource);
         }
 
-        public static bool GetIsLocalBranches(UIElement element)
+        private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
         {
-            return (bool)element.GetValue(IsLocalBranchesProperty);
+            e.Handled = true;
         }
-
-        public static void SetIsLocalBranches(UIElement element, bool value)
-        {
-            element.SetValue(IsLocalBranchesProperty, value);
-        }
-
-        public static readonly DependencyProperty IsLocalBranchesProperty =
-            DependencyProperty.RegisterAttached("IsLocalBranches", typeof(bool), typeof(GitBranchTreeView), new PropertyMetadata(false));
     }
 }

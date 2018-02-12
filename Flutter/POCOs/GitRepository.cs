@@ -7,7 +7,6 @@
 
         public GitRepository()
         {
-
         }
 
         public GitRepository(string name, string path)

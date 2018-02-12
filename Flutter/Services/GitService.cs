@@ -2,6 +2,7 @@
 using System.Linq;
 using Flutter.Settings;
 using LibGit2Sharp;
+using StructureMap.Attributes;
 
 namespace Flutter.Services
 {
@@ -13,10 +14,10 @@ namespace Flutter.Services
 
     public class GitService : IGitService
     {
-        private readonly GitSettings settings;
+        private readonly IGitSettings settings;
         private readonly ICredentialProvider credentialProvider;
 
-        public GitService(GitSettings settings, ICredentialProvider credentialProvider)
+        public GitService(IGitSettings settings, ICredentialProvider credentialProvider)
         {
             this.settings = settings;
             this.credentialProvider = credentialProvider;

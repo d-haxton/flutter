@@ -8,16 +8,38 @@ using LibGit2Sharp;
 
 namespace Flutter.POCOs
 {
-    public class GitBranch
+    public class GitTreeItem
     {
-        public string Name => branch.FriendlyName;
-        public IList<GitBranch> Children { get; }
+        public IList<GitTreeItem> Children { get; } = new List<GitTreeItem>();
+        public virtual string Name { get; }
+
+        protected GitTreeItem()
+        {
+
+        }
+
+        protected GitTreeItem(string name)
+        {
+            Name = name;
+        }
+    }
+
+    public class GitTreeFolder : GitTreeItem
+    {
+        public GitTreeFolder(string part) : base(part)
+        {
+        }
+    }
+
+    public class GitTreeBranch : GitTreeItem
+    {
+        public override string Name => branch.FriendlyName;
 
         private readonly Branch branch;
-        public GitBranch(Branch branch, IEnumerable<GitBranch> children)
+
+        public GitTreeBranch(Branch branch)
         {
             this.branch = branch;
-            Children = new ObservableCollection<GitBranch>(children);
         }
     }
 }

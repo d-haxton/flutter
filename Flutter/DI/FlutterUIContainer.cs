@@ -14,7 +14,10 @@ namespace Flutter.DI
         {
             //For<IMainViewModel>().Use<MainViewModel>();
             For<DatabaseSettings>().Use<DatabaseSettings>().Ctor<string>().Is("flutter.db").Singleton();
-            For<IFolderDialog>().Use<FolderDialog>().Transient();
+            For<IFolderDialog>().Use<FolderDialog>().Singleton();
+            For<IGitService>().Use<GitService>().ContainerScoped();
+            For<ICredentialProvider>().Use<CredentialProvider>().Singleton();
+            For<IGitSettings>().Use<GitSettings>().ContainerScoped();
         }
     }
 

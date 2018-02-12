@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Flutter.Reactive;
 using ReactiveUI;
+using StructureMap;
 
 namespace Flutter.View
 {
