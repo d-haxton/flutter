@@ -18,6 +18,7 @@ namespace Flutter.DI
             For<IGitService>().Use<GitService>().ContainerScoped();
             For<ICredentialProvider>().Use<CredentialProvider>().Singleton();
             For<IGitSettings>().Use<GitSettings>().ContainerScoped();
+            For<IGitRepositoryViewState>().Use<GitRepositoryViewState>().ContainerScoped();
         }
     }
 

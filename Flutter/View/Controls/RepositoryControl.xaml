@@ -8,6 +8,7 @@
                              xmlns:reactive="clr-namespace:Flutter.Reactive"
                              xmlns:reactiveUi="http://reactiveui.net"
                              xmlns:viewModel="clr-namespace:Flutter.ViewModel"
+                             xmlns:controls="clr-namespace:Flutter.View.Controls"
                              mc:Ignorable="d"
                              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -22,7 +23,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <view:SideMenuRepoControl Grid.Column="0" Grid.RowSpan="4" />
+        <controls:SideMenuRepoControl Grid.Column="0" Grid.RowSpan="4" />
         <view:GitMenuControl Grid.Row="0" Grid.Column="1" Margin="8" HorizontalAlignment="Center" />
         <Separator Grid.Row="1" Grid.Column="1" />
         <view:GitHistoryControl Grid.Row="2" Grid.Column="1" />

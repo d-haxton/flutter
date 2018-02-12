@@ -69,14 +69,12 @@ namespace Flutter.View
 
         private TabItem BuildTabItem(GitRepository repository)
         {
+            // todo :: make lazy implementation that GC's the other views when not selected
             var container = ScopedContainer.CreateChildContainer();
-            container.Name = $"{repository.Name}";
             container.Configure(x => x.For<IGitSettings>().Use<GitSettings>().Ctor<GitRepository>().Is(repository));
-            var control = container.GetInstance<RepositoryControl>();
-            control.ScopedContainer = container;
             return new TabItem
             {
-                Content = control,
+                Content = container.GetInstance<RepositoryControl>(),
                 Header = repository.Name
             };
         }

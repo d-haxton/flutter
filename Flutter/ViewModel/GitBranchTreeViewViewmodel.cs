@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flutter.Data;
@@ -9,6 +10,7 @@ using Flutter.POCOs;
 using Flutter.Reactive;
 using Flutter.Services;
 using Flutter.Settings;
+using Flutter.View.Controls;
 using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Microsoft.Alm.Authentication;
@@ -20,19 +22,36 @@ namespace Flutter.ViewModel
     public class GitBranchTreeViewViewModel : ReactiveObject
     {
         private readonly IGitService gitService;
+        private readonly IGitRepositoryViewState viewState;
         private readonly DatabaseCollection<GitRepository> repositories;
+
+        [Reactive] public EBranchType BranchType { get; set; }
+        [Reactive] public GitTreeItem Branch { get; set; }
 
         public ObservableCollection<GitTreeItem> RootNodes { get; private set; }
 
-        public GitBranchTreeViewViewModel(IGitService service)
+        public GitBranchTreeViewViewModel(IGitService service, IGitRepositoryViewState viewState)
         {
             gitService = service;
-            bool isLocal = true;
+            this.viewState = viewState;
             RootNodes = new ObservableCollection<GitTreeItem>();
             repositories = new DatabaseCollection<GitRepository>();
 
+            this.WhenAnyValue(x => x.BranchType)
+                .Where(x => x != EBranchType.Unknown)
+                .Select(x => x == EBranchType.Remote)
+                .Subscribe(UpdateRootNodes);
+
+            this.WhenAnyValue(x => x.Branch)
+                .BindTo(this, vm => vm.viewState.Branch);
+        }
+
+        private void UpdateRootNodes(bool isRemote)
+        {
+            RootNodes.Clear();
+
             var nodes = gitService.Branches
-                .Where(x => x.IsRemote != isLocal)
+                .Where(x => x.IsRemote == isRemote)
                 .OrderByDescending(x => x.FriendlyName.Count(c => c == '/'))
                 .ToArray();
 
@@ -45,22 +64,21 @@ namespace Flutter.ViewModel
 
             foreach (var path in paths)
             {
-                CreatePath(RootNodes, path);
+                CreatePath(RootNodes, path, part => new GitTreeFolder(part));
             }
 
             foreach (var branch in nodes.Where(x => x.FriendlyName.IndexOf('/') == -1))
             {
-                RootNodes.Add(new GitTreeBranch(branch));
+                RootNodes.Add(new GitTreeBranch(branch.FriendlyName, branch));
             }
 
             foreach (var branch in nodes)
             {
-                // TODO :: Create GitTreeBranch instead of folders
-                CreatePath(RootNodes, branch.FriendlyName);
+                CreatePath(RootNodes, branch.FriendlyName, part => new GitTreeBranch(part, branch));
             }
         }
 
-        private void CreatePath(IList<GitTreeItem> nodeList, string path)
+        private static void CreatePath(IList<GitTreeItem> nodeList, string path, Func<string, GitTreeItem> gitItemFunc)
         {
             while (true)
             {
@@ -91,7 +109,7 @@ namespace Flutter.ViewModel
 
                 if (node == null)
                 {
-                    node = new GitTreeFolder(folder);
+                    node = gitItemFunc(folder);
                     nodeList.Add(node);
                 }
 

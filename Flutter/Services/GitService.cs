@@ -1,4 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Flutter.Settings;
 using LibGit2Sharp;
@@ -10,45 +12,38 @@ namespace Flutter.Services
     {
         ImmutableArray<Branch> Branches { get; }
         void FetchRemotes();
+        ImmutableArray<Commit> Commits { get; }
     }
 
-    public class GitService : IGitService
+    public class GitService : IGitService, IDisposable
     {
         private readonly IGitSettings settings;
         private readonly ICredentialProvider credentialProvider;
+        private readonly Repository repository;
 
         public GitService(IGitSettings settings, ICredentialProvider credentialProvider)
         {
             this.settings = settings;
             this.credentialProvider = credentialProvider;
+            repository = new Repository(settings.PathToRepository, settings.Options);
         }
 
-        private Repository BuildRepository()
-        {
-            return new Repository(settings.PathToRepository, settings.Options);
-        }
+        public ImmutableArray<Branch> Branches => repository.Branches.ToImmutableArray();
 
-        public ImmutableArray<Branch> Branches
-        {
-            get
-            {
-                using (var repo = BuildRepository())
-                {
-                    return repo.Branches.ToImmutableArray();
-                }
-            }
-        }
+        public ImmutableArray<Commit> Commits => repository.Commits.QueryBy(new CommitFilter { IncludeReachableFrom = repository.Refs }).ToImmutableArray();
 
         public void FetchRemotes()
         {
-            using (var repo = BuildRepository())
+            foreach (var remote in repository.Network.Remotes)
             {
-                foreach (var remote in repo.Network.Remotes)
-                {
-                    var refSpecs = remote.FetchRefSpecs.Select(x => x.Specification);
-                    Commands.Fetch(repo, remote.Name, refSpecs, credentialProvider.GithubFetchOptions, "");
-                }
+                var refSpecs = remote.FetchRefSpecs.Select(x => x.Specification);
+                Commands.Fetch(repository, remote.Name, refSpecs, credentialProvider.GithubFetchOptions, "");
             }
+        }
+
+        public void Dispose()
+        {
+            repository?.Dispose();
         }
     }
 }

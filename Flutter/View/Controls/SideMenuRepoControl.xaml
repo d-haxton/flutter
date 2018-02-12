@@ -1,5 +1,5 @@
 ﻿<reactive:FlutterUserControl x:TypeArguments="viewModel:SideMenuRepoControlViewModel"
-                             x:Class="Flutter.View.SideMenuRepoControl"
+                             x:Class="Flutter.View.Controls.SideMenuRepoControl"
                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,10 +14,10 @@
     <ScrollViewer>
         <StackPanel>
             <Expander Header="_Local">
-                <controls:GitBranchTreeView />
+                <controls:GitBranchTreeView x:Name="localBranchTree" />
             </Expander>
             <Expander Header="_Remote">
-                <controls:GitBranchTreeView />
+                <controls:GitBranchTreeView x:Name="remoteBranchTree" />
             </Expander>
             <Expander Header="_Pull Requests">
                 <!--todo pull requests-->

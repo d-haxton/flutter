@@ -45,6 +45,9 @@
     <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dragablz.0.0.3.197\lib\net45\Dragablz.dll</HintPath>
     </Reference>
+    <Reference Include="Emoji.Wpf, Version=0.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Emoji.Wpf.0.0.7-experimental\lib\net30\Emoji.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="LibGit2Sharp, Version=0.24.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
       <HintPath>..\packages\LibGit2Sharp.0.24.0\lib\net40\LibGit2Sharp.dll</HintPath>
     </Reference>
@@ -136,6 +139,12 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Typography.GlyphLayout, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Emoji.Wpf.0.0.7-experimental\lib\net30\Typography.GlyphLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="Typography.OpenFont, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Emoji.Wpf.0.0.7-experimental\lib\net30\Typography.OpenFont.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -170,13 +179,15 @@
     <Compile Include="Reactive\IContainerController.cs" />
     <Compile Include="Reactive\ReactiveUtils.cs" />
     <Compile Include="Services\CredentialProvider.cs" />
+    <Compile Include="Services\GitRepositoryViewState.cs" />
     <Compile Include="Services\GitService.cs" />
     <Compile Include="Settings\DatabaseSettings.cs" />
     <Compile Include="Settings\GitSettings.cs" />
+    <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\WpfUtils.cs" />
-    <Compile Include="ViewModel\GitBranchTreeViewViewmodel.cs" />
+    <Compile Include="ViewModel\GitBranchTreeViewViewModel.cs" />
     <Compile Include="ViewModel\GitHistoryControlViewModel.cs" />
-    <Compile Include="ViewModel\GitLogDataGridViewModel.cs" />
+    <Compile Include="POCOs\GitCommit.cs" />
     <Compile Include="ViewModel\GitMenuControlViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="Reactive\FlutterWindow.cs" />
@@ -185,19 +196,19 @@
     <Compile Include="View\Controls\GitBranchTreeView.xaml.cs">
       <DependentUpon>GitBranchTreeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GitHistoryControl.xaml.cs">
+    <Compile Include="View\Controls\GitHistoryControl.xaml.cs">
       <DependentUpon>GitHistoryControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GitMenuControl.xaml.cs">
+    <Compile Include="View\Controls\GitMenuControl.xaml.cs">
       <DependentUpon>GitMenuControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RepositoryControl.xaml.cs">
+    <Compile Include="View\Controls\RepositoryControl.xaml.cs">
       <DependentUpon>RepositoryControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SideMenuRepoControl.xaml.cs">
+    <Compile Include="View\Controls\SideMenuRepoControl.xaml.cs">
       <DependentUpon>SideMenuRepoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reactive\FlutterUserControl.cs" />
@@ -223,11 +234,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GitHistoryControl.xaml">
+    <Page Include="View\Controls\GitHistoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GitMenuControl.xaml">
+    <Page Include="View\Controls\GitMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,11 +246,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\RepositoryControl.xaml">
+    <Page Include="View\Controls\RepositoryControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\SideMenuRepoControl.xaml">
+    <Page Include="View\Controls\SideMenuRepoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
